@@ -1,0 +1,6 @@
+---
+# tasks file for webtunnel-ansible
+- include_tasks: debian-bookworm.yml
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_distribution_release == 'bookworm'

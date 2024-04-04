@@ -1,0 +1,23 @@
+---
+# defaults file for webtunnel-ansible
+webtunnel_packages_utils_deb:
+- apt-transport-https
+- lsb-release
+- git
+
+webtunnel_packages_deb:
+- golang-src
+- golang-go
+
+webtunnel_packages_tor_deb:
+- tor
+- deb.torproject.org-keyring
+
+# Update standalone version
+webtunnel_update: yes
+
+# Webtunnel config
+webtunnel_name:
+webtunnel_mail:
+webtunnel_path:
+webtunnel_domain:

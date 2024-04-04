@@ -1,0 +1,10 @@
+BridgeRelay 1
+ORPort 127.0.0.1:auto
+AssumeReachable 1
+ServerTransportPlugin webtunnel exec /usr/local/bin/webtunnel
+ServerTransportListenAddr webtunnel 127.0.0.1:15000
+ServerTransportOptions webtunnel url=https://{{ webtunnel_domain }}/{{ webtunnel_path }}
+ExtORPort auto
+ContactInfo {{ webtunnel_mail }}
+Nickname {{ webtunnel_name }}
+SocksPort 0

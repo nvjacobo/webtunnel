@@ -1,0 +1,95 @@
+- name: Update cache
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Add backports repository
+  ansible.builtin.apt_repository:
+    repo: "deb http://deb.debian.org/debian bookworm-backports main"
+    state: present
+    update_cache: true
+
+- name: Install webtunnel_packages_utils_deb
+  ansible.builtin.package:
+    name: "{{ webtunnel_packages_utils_deb }}"
+    default_release: bookworm-backports
+    state: present
+
+- name: Install golang
+  ansible.builtin.package:
+    name: "{{ webtunnel_packages_deb }}"
+    default_release: bookworm-backports
+    state: present
+
+- name: Clone Webtunnel repo
+  ansible.builtin.git:
+    repo: 'https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel'
+    dest: /home/debian/repo
+    update: "{{ webtunnel_update }}"
+  register: clone_git
+
+- name: Go get
+  ansible.builtin.command: go get
+  args:
+    chdir: /home/debian/repo/main/server
+  register: go_get
+  when: clone_git is changed
+
+- name: Go build
+  ansible.builtin.command: go build
+  args:
+    chdir: /home/debian/repo/main/server
+  register: go_build
+  when: clone_git is changed
+
+- name: Copy binary file to /usr/bin/
+  ansible.builtin.copy:
+    src: /home/debian/repo/main/server/server
+    dest: /usr/local/bin/webtunnel
+    mode: a+x
+    remote_src: yes
+
+- name: Ensure torproject gpg key is installed (A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89)
+  ansible.builtin.apt_key:
+    url: https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
+    id: A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
+    state: present
+
+
+- name: Ensure torproject.org repository is present (APT)
+  become: yes
+  apt_repository:
+    repo: 'deb https://deb.torproject.org/torproject.org bookworm main'
+    state: present
+    update_cache: yes
+
+- name: Install Tor packages
+  ansible.builtin.package:
+    name: "{{ webtunnel_packages_tor_deb }}"
+    state: present
+
+- name: Add torrc config
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/tor/{{ item }}"
+    mode: 0644
+  with_items:
+    - torrc
+
+- name: Edit and reload AppArmor tor permission
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/apparmor.d/{{ item }}"
+    mode: 0644
+  with_items:
+    - system_tor
+
+- name: Reload the AppArmor profile
+  ansible.builtin.shell: apparmor_parser -r /etc/apparmor.d/system_tor
+  args:
+    executable: /bin/bash
+
+- name: Start/restart service Tor
+  ansible.builtin.service:
+    name: tor
+    state: restarted
