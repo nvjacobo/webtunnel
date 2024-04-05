@@ -112,7 +112,6 @@
   package:
     name: "{{  caddy_package }}"
     state: "{{ caddy_package_state }}"
-  notify: restart caddy
 
 - name: Config Caddy
   ansible.builtin.template:
