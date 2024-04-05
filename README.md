@@ -1,7 +1,7 @@
 Ansible Role: Webtunnel
 =========
 
-An Ansible Role that installs and configures Webtunnel on GNU/Linux
+An Ansible Role that installs and configures Webtunnel on GNU/Linux with Caddy
 
 Background
 ------------
