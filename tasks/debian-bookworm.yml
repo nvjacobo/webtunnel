@@ -119,5 +119,5 @@
     dest: "/etc/caddy/{{ item }}"
     mode: 0644
   with_items:
-    - Caddy
+    - Caddyfile
   notify: restart caddy  
