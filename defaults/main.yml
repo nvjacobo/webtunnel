@@ -4,6 +4,7 @@ webtunnel_packages_utils_deb:
 - apt-transport-https
 - lsb-release
 - git
+- ufw  
 
 webtunnel_packages_deb:
 - golang-src
