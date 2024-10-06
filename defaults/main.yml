@@ -34,7 +34,7 @@ caddy_service_enabled: true
 caddy_restart_handler_state: restarted
 
 # Debian
-caddy_apt_repository_url: deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian 
+caddy_apt_repository_url: https://dl.cloudsmith.io/public/caddy/stable/deb/debian 
 caddy_apt_repository_types: [deb]
 caddy_apt_repository_suites: [any-version]
 caddy_apt_repository_components: [main]
