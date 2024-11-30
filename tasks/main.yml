@@ -1,5 +1,17 @@
 ---
 # tasks file for webtunnel-ansible
+
+# Generate random webtunnel_path on each host
+- name: Generate random webtunnel_path
+  ansible.builtin.shell: "cat /dev/urandom | tr -cd 'qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTUIOP0987654321' | head -c 24"
+  register: random_path
+  changed_when: false
+
+- name: Set webtunnel_path fact
+  ansible.builtin.set_fact:
+    webtunnel_path: "{{ random_path.stdout }}"
+
+# Include OS-specific tasks
 - include_tasks: debian-bookworm.yml
   when:
     - ansible_distribution == 'Debian'
