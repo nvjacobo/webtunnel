@@ -5,6 +5,7 @@ webtunnel_packages_utils_deb:
 - lsb-release
 - git
 - ufw  
+- gnupg2
 
 webtunnel_packages_deb:
 - golang-src
