@@ -29,7 +29,8 @@ Your email address
 
     webtunnel_mail:
     
-Generate path with the command echo $(cat /dev/urandom | tr -cd "qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTUIOP0987654321"|head -c 24)
+Generate path with the command 
+    echo $(cat /dev/urandom | tr -cd "qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTUIOP0987654321"|head -c 24)
 
     webtunnel_path:
 Nickname Bridge
