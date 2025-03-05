@@ -18,6 +18,13 @@ Requirements
 
 You need root privileges or sudo user to run this role.
 
+Collections
+
+You need to install community.general collection
+
+    ansible-galaxy collection install community.general
+
+
 Role Variables
 --------------
 
