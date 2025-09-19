@@ -3,12 +3,6 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: Add backports repository
-  ansible.builtin.apt_repository:
-    repo: "deb http://deb.debian.org/debian trixie-backports main"
-    state: present
-    update_cache: true
-
 - name: Install webtunnel_packages_utils_deb
   ansible.builtin.package:
     name: "{{ webtunnel_packages_utils_deb }}"
@@ -18,7 +12,6 @@
 - name: Install golang
   ansible.builtin.package:
     name: "{{ webtunnel_packages_deb }}"
-    default_release: trixie-backports
     state: present
 
 - name: Clone Webtunnel repo
@@ -59,7 +52,7 @@
 - name: Ensure torproject.org repository is present (APT)
   become: yes
   apt_repository:
-    repo: 'deb https://deb.torproject.org/torproject.org bookworm main'
+    repo: 'deb https://deb.torproject.org/torproject.org trixie main'
     state: present
     update_cache: yes
 
