@@ -12,6 +12,7 @@ WebTunnel is a censorship-resistant pluggable transport designed to mimic encryp
 Supported Operating Systems
 ------------
 - Debian bookworm
+- Debian Trixie
 
 Requirements
 ------------
