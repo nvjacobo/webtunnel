@@ -6,7 +6,6 @@
 - name: Install webtunnel_packages_utils_deb
   ansible.builtin.package:
     name: "{{ webtunnel_packages_utils_deb }}"
-    default_release: trixie-backports
     state: present
 
 - name: Install golang
